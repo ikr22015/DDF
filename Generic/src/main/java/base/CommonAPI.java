@@ -14,20 +14,21 @@ import java.util.concurrent.TimeUnit;
 public class CommonAPI {
     public static WebDriver driver = null;
 
-    @Test
-    public void setUp()throws InterruptedException{
+    @Test(dataProvider = "testdata")
+    public void setUp(String username, String password)throws InterruptedException{
         System.setProperty("webdriver.gecko.driver","../Generic/drivers/geckodriver");
         driver = new FirefoxDriver();
-        driver.get("https://www.amazon.com");
+        driver.get("https://www.facebook.com/");
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
         driver.manage().timeouts().pageLoadTimeout(35,TimeUnit.SECONDS);
 
-        driver.findElement(By.id("twotabsearchtextbox")).sendKeys("Book");
+        driver.findElement(By.id("email")).sendKeys(username);
+        driver.findElement(By.id("pass")).sendKeys(password);
 
         Thread.sleep(5000);
-        Assert.assertTrue(driver.getTitle().matches("Amazon.com: Online Shopping for Electronics, Apparel, Computers, Books, DVDs & more"), "Invalid Credentials");
-        System.out.println("Search successful.");
+//        Assert.assertTrue(driver.getTitle().matches("Amazon.com: Online Shopping for Electronics, Apparel, Computers, Books, DVDs & more"), "Invalid Credentials");
+//        System.out.println("Search successful.");
     }
 
     @AfterMethod
